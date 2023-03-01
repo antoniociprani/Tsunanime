@@ -1,0 +1,79 @@
+<h1 class='text-center'><strong>Tsunanime</strong></h1>
+<hr style="width: 95%; margin: auto; border: 2px solid grey" >
+<br>
+
+
+<h2 class='text-center'> Latest Reviews</h2>
+<br>
+<br>
+<div class="container-fluid"> 
+    <div class="row">
+        <% i = 0%>  
+        <% @latest_reviews.each do |review| %>
+            <% anime = @anime.find_by(id: review.anime_id) %>
+                    <div class=" card mb-3 ms-5 g-0" style="max-width: 540px;">
+                        <div class="row g-0">
+                            <div class="col-md-4">
+                                <%= link_to anime_path(anime.id) do %>
+                                    <% if anime.image.attached? %>
+                                        <img src="<%=(url_for(anime.image)) %>" width="170" height="210" alt="" >
+                                    <% else %>
+                                        <p> Nessuna immagine disponibile </p>
+                                    <%end%>
+                                <%end%>
+                            </div>
+                            <div class="col-md-8">
+                                <div class="card-body">
+                                    <h5 class="card-title"><%=  anime.title%></h5>
+                                    <br>
+                                    <% user = @users.find_by(id: review.user_id) %>
+                                    <p class="card-text">User: <%= user.username %></p>  
+                                    <p class="card-text" style="font-size:15px">" <%= review.comment %> "</p>
+                                    <p class="card-text"> Rating: <%=review.rating %></p>
+                                    <p class="card-text"><small><%= review.created_at %></small></p>
+                                </div>
+                            </div>
+                        </div>  
+                    </div>
+            <% i +=1 %>
+            <%break if i > 2%> 
+                
+
+        <%end%>
+    </div>
+</div>
+<br>
+<hr style="width: 95%; margin: auto; border: 2px solid grey" >
+<br>
+
+
+<h2 class='text-center'>Latest Releases</h2><br><br>
+<% i = 0%>
+<table>
+    <% @latest_animes.each_slice(3) do |anime| %>
+        <%break if i > 1 %>
+        <tr>
+            <%anime.each do |anime| %>
+                <td style='padding-left: 340px; padding-top:30px;'>        
+                    <h4><strong><%= anime.title %></strong></h4>
+                    <%= link_to anime_path(anime.id) do %> 
+                        <% if anime.image.attached? %>
+                            <img src="<%=(url_for(anime.image)) %>" width="170" height="210" alt="" >
+                        <% else %>
+                            <p> Nessuna immagine disponibile </p>
+                        <%end%>
+                    <%end%>    
+                </td>    
+            <% end %>
+        </tr>
+        <%i += 1%>   
+        
+    <%end%>
+    
+</table>    
+<br>
+<br>
+
+
+
+

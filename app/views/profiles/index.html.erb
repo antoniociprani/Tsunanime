@@ -1,0 +1,52 @@
+
+<h1 class='text-center'> <strong>Your Profile </strong></h1>
+<hr style="width: 95%; margin: auto; border: 2px solid grey" >
+
+<br><br><br>
+<div class='container'>
+  <div class="row ">
+    <div class="col-6 ">
+      <p class="profilo">Email: <%=current_user.email%> </p>
+      <p class="profilo">Username: <%=current_user.username%></p>
+      <p class="profilo">Data di Nascita: <%=current_user.data%> </p>
+    </div>
+    <div class="col-6 ">
+      <p class="profilo"><%= link_to "Edit", edit_user_registration_path%> </p>
+      <p class="profilo"><%= link_to "Sign Out", destroy_user_session_path, method: :delete %> </p>
+      
+
+    </div>
+  </div>
+
+</div>
+<br>
+<br>
+<br>
+<div class="container ">
+<p class="text-end" style="font-size:12px">Unhappy?  <%= link_to "Delete Your Profile",user_registration_path, method: :delete, data: {confirm: "Really delete this Account?"} %></p>
+</div>
+<hr style="width: 95%; margin: auto; border: 2px solid grey" >
+
+<h2 class='text-center'>I tuoi anime preferiti</h2>
+<table>
+<% @favs.each_slice(3) do |fav| %>
+    <tr>
+      <%fav.each do |fav| %>
+        <% anime_fav = @animes.find_by(id: fav.favoritable_id) %>
+          <td style='padding-left: 250px; padding-top:30px;'>
+          <h3> <%anime_fav.title %> </h3>
+          <% if anime_fav.image.attached? %>
+          <img src="<%=(url_for(anime_fav.image)) %>" width="300" height="410" alt="" >
+          <% else %>
+          <p> Nessuna immagine disponibile </p>
+          <% end %>
+          </td>
+      <% end %>  
+        
+    <tr>
+<%end%>
+</table>
+
+
+
+

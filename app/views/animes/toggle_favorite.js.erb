@@ -1,0 +1,9 @@
+var animeID = '<%= @anime.id%>'
+
+function toggleLikeButton(animeID, innerHTML){
+    let likeButton = document.querySelector(`.like-icon[data-id='${animeID}']`);
+    likeButton.classList.toggle('red');
+
+}
+
+toggleLikeButton(animeID);

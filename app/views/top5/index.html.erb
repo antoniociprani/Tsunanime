@@ -1,0 +1,39 @@
+<h1 class="text-center"><strong>Top5 Animes</strong></h1>
+
+<hr style="width: 95%; margin: auto; border: 2px solid grey" >
+
+<br>
+<% i = 0 %>
+<% @top_animes.reverse.each do |anime| %>
+    <% break if i > 4%>
+    <div class="card mx-auto" style="width: 300px">
+        <%= link_to anime_path(anime.id) do %>        
+            <% if anime.image.attached? %>
+              <img src="<%=(url_for(anime.image)) %>" width="300" height="340" alt="" >
+            <% else %>
+              <p> Nessuna immagine disponibile </p>
+            <% end %>
+            
+        <% end %>
+
+
+        <%= link_to toggle_favorite_anime_path(anime), remote: true, method: :post do%>
+          <%= render 'animes/like_button', anime: anime %>
+        <% end %>
+        <div class="col-md-8">
+            <div class="card-body">
+              
+              <h5 class="anime-title"><strong><%= anime.title %></strong></h5>
+              <p class="author"><%= anime.author %></p><br>
+              <p class="release"><small class="text-muted"><%= anime.release_date %></small></p>
+              <p class="avg">Rating: <%=anime.avg %> </p>
+              
+
+            </div> 
+        </div>
+    </div>
+    <br>
+    <br>
+    <%i += 1%>
+<%end%>
+

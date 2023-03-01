@@ -1,0 +1,67 @@
+
+<h1 class="text-center"><%= @anime.title %> </h1>
+<hr style="width: 95%; margin: auto; border: 2px solid grey" >
+
+<br>
+
+<div class="container">
+  <div class="row">
+    <div class="col-8">
+      <div class="card " style="width: 300px">
+        <% if @anime.image.attached? %>
+          <img src="<%=(url_for(@anime.image)) %>" width="300" height="410" alt="" >
+        <% else %>
+          <p> Nessuna immagine disponibile </p>
+        <% end %>
+
+        <div class="card-body">
+          <p class="card-text"><strong>Author:</strong>  <%= @anime.author %></p>
+          <p class="card-text"><strong>Plot:</strong>  <%= @anime.descripton %></p>
+          <p class="card-text"><strong>Release Date:</strong>  <%= @anime.release_date %></p>
+          <p class="card-text"><strong>Rating:</strong> <%= @anime.avg%></p>
+        </div>
+      </div>
+      <%= link_to toggle_favorite_anime_path(@anime), remote: true, method: :post do%>
+        <%= render 'animes/like_button', anime: @anime %>
+      <% end %>
+    </div>
+
+    
+
+    <div class="col-4">
+    <%= render 'reviews/form', review: @nuova %>  
+      <br>
+      <br>
+      <h4>Reviews:</h4>
+      <% if @anime.reviews.empty? %> 
+
+        <h3>No reviews just yet, would you like to add the first?</h3>
+        <%= link_to "Write Review", new_anime_review_path(@anime) %>
+
+      <% else %>
+        <% @anime.reviews.each do |review| %>
+        <div>
+          <% utente = @users.find_by(id: review.user_id) %>
+          <p><%= utente.username %></p>
+          <p><%= review.rating %></p>
+          <p><%= review.comment %></p>
+          <% if can? :destroy, Review %>
+            <%= link_to "Destroy", anime_review_path(@anime,review), method: :delete %>
+          <% else %>
+          <%end%> 
+        </div>
+        <% end %>
+      <% end %>
+
+    </div>
+  </div>
+  <br>
+  <br>
+  <%if can? :update, Anime%>
+    <%= link_to 'Edit Anime', edit_anime_path(@anime) %>
+    <%= link_to "Destroy", anime_path(@anime), method: :delete %>
+  <%end%>
+</div>
+
+
+

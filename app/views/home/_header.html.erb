@@ -1,0 +1,50 @@
+<nav class="navbar navbar-expand-lg navbar-light " style="background-color:#afd5d2;">
+    <div class="container-fluid">
+        <%= link_to root_path, class:"navbar-brand" do %>
+            <%=image_tag("/assets/logo.jpg", alt:"", class:"logo", height: 80, width: 100) %> 
+        <% end %>
+
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="true" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <div class="navbar-nav">
+
+                <%= link_to "Anime", animes_path, class:"nav-link" %>
+                <%= link_to "Top 5",top5_index_path, class: "nav-link"%>
+                <%= link_to "About us","/about", class: "nav-link"%>
+                
+                
+                
+            </div>
+            
+        </div>
+        <span class="me-5">
+            
+
+            <% if current_user.roles_mask != 1 %>
+                <%= link_to tools_index_path, id: "tools", class:"navbar-brand" do %>
+                    <%=image_tag("/assets/tools.png", alt:"tools-alt", class:"logo", height: 40, width: 40) %> 
+                <% end %>
+            <%end%>    
+
+        </span>
+        <span class="me-auto">
+            <% if user_signed_in? %>
+                <%if current_user.avatar.attached?%>
+                    <%= link_to profiles_path, id: "profile", class:"navbar-brand" do %>
+                        <img src="<%=(url_for(current_user.avatar)) %>" width="50" height="52" alt="profile-alt" class="prof_img me-2">
+                    <% end %>
+                <%else%>
+                    <%= link_to profiles_path, id: "profile", class:"navbar-brand" do %>
+                        <%=image_tag("/assets/prof.png", alt:"profile-alt", class:"prof_img me-2", height: 50, width: 50) %> 
+                    <% end %>
+                <%end%>
+            <% else %>
+                <%= link_to "Sign In", new_user_session_path, class:"nav-link" %>
+            <% end %>
+       </span>
+        
+                
+    </div>
+</nav>
